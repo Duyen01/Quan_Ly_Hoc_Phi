@@ -1,0 +1,107 @@
+*{margin:0;padding:0; }
+
+.noidung {
+    /* background-color: #d21e1e; */
+    width: 520px;
+    height: 280px;
+    position: absolute;
+    color: white;
+    padding: 10px 10px;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.4s;
+    transform:scale(0.3);
+    margin-top: -140px;
+    margin-left: -260px;
+
+}
+.noidung.noidunghienra {
+    opacity: 1;
+    visibility: visible;
+    transform:scale(1);
+}
+
+.nut {
+    /* border: 1px solid #b31b1b; */
+    width: 100px;
+    padding: 10px 10px;
+    text-align: center;
+    /* background-color: #ca1717; */
+    cursor: pointer;
+    color: white;
+}
+
+.nut:hover {
+    /* background-color: darkred; */
+}
+
+.phai {
+    float: left;
+    width: 45%;
+}
+
+.trai {
+    float: left;
+    width: 50%;
+    margin: auto;
+    color: white;
+}
+
+.tieude {
+    /* background: #c51f1f; */
+    padding: 30px 30px;
+    font-size: 30px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.mo {
+    z-index: 1;
+    width: 100%;
+    background: #00000038;
+    height: 700px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.mo.modira {
+    opacity: 1;
+    visibility: visible;
+}
+
+.nutdong {
+    /* background-color: #ca1717; */
+    width: 80px;
+    text-align: center;
+    padding: 10px 10px;
+    /* border: 1px solid #b31b1b; */
+    cursor: pointer;
+    margin: auto;
+}
+
+.nutdong:hover {
+    background-color: #885353;
+}
+
+.noidung .text {padding: 10px 10px;}
+
+.noidung h4 {
+    font-size: 20px;
+    text-align: center;
+    /* background-color: #ca1717; */
+    padding: 10px;
+}
+
+.phanhaicot {
+    width: 900px;
+    height: 200px;
+    margin: auto;
+    padding: 40px 40px;
+}
