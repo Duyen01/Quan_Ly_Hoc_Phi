@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="{{asset('ad/dist/css/adminlte.min.css')}}">
   {{-- Ajax --}}
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="{{asset('ad/plugins/jquery/jquery.min.js')}}"></script>
 </head>  
 
   @yield('css')
@@ -188,7 +189,7 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="{{asset('ad/plugins/jquery/jquery.min.js')}}"></script>
+
 <!-- Bootstrap 4 -->
 <script src="{{asset('ad/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- overlayScrollbars -->

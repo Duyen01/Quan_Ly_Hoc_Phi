@@ -123,14 +123,6 @@ class StaticAdminController extends Controller
         }
         // dd($totalUserRegistrations);     
         
-
-        return view('admin.dashboard', compact('year','dataPointsMonths',
-        'dataPointsYears','dataPointsSemeters', 'totalMoney', 'totalStudent', 
-        'totalUserRegistrations', 'totalBill'));
-    }
-
-    public function student(Request $request)
-    {
         $arrayTyepPayCousesMajor = DB::select(DB::raw("
         select DISTINCT(course.id) as idCourse, course.name as nameCourse, student.idTypePay, major.id as idMajor, major.name as nameMajor from grade 
         join student on student.idGrade = grade.id 
@@ -163,15 +155,25 @@ class StaticAdminController extends Controller
             foreach($typePayAndCoursesMajor as $item){
                 array_push($arrayStudentTypayCourseMajor, $item);                
             }
-            array_push($arrayCourse, array($each->idCourse, $each->nameCourse));
-            array_push($arrayMajor, array($each->idMajor, $each->nameMajor));
+            // array_push($arrayCourse, array($each->idCourse, $each->nameCourse));
+            // array_push($arrayMajor, array($each->idMajor, $each->nameMajor));
         }
+        // dd($arrayStudentTypayCourseMajor);
 
-        return response()->json([
-            "arrayCourse" => $arrayCourse,
-            "arrayMajor" => $arrayMajor,
-            "arrayStudentTypayCourseMajor" => $arrayStudentTypayCourseMajor
-        ]);
-
+        return view('admin.dashboard', compact('year','dataPointsMonths',
+        'dataPointsYears','dataPointsSemeters', 'totalMoney', 'totalStudent', 
+        'totalUserRegistrations', 'totalBill', 'arrayStudentTypayCourseMajor'));
     }
+
+    // public function student(Request $request)
+    // {
+        
+
+    //     return response()->json([
+    //         "arrayCourse" => $arrayCourse,
+    //         "arrayMajor" => $arrayMajor,
+    //         "arrayStudentTypayCourseMajor" => $arrayStudentTypayCourseMajor
+    //     ]);
+
+    // }
 }

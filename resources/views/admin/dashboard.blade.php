@@ -72,33 +72,27 @@
     <h1>Student allow type of pay</h1>
     <button class="btn btn-primary" id="showData">Show</button>
     <br>
-    <div class="row">
-        <div class="course">
-            <select name="selectCourse" id="selectCourse">                
-            </select>
-        </div>
-        <div class="major">
-            <select name="selectMajor" id="selectMajor">
-            </select>
-        </div>
-        <div class="btn">
-            <button id="filterStudent" class="btn btn-primary">Filter</button>
-        </div>
-    </div>
-    <div class="row">        
+    {{-- <div class="row">         --}}
         <br>        
-        <table id="example" class="display" style="width:100%">
+        <table id="example" class="display"  style="width:100%">
             <thead>
                 <th scope="col">Course</th>
                 <th scope="col">Major</th>
                 <th scope="col">Type of Pay</th>
                 <th scope="col">Total Student</th>
             </thead>
-            <tbody id="dataStudent">
-                
+            <tbody>
+                @foreach ($arrayStudentTypayCourseMajor as $item)
+                    <tr>
+                        <td>{{ $item->nameCouse }}</td>
+                        <td>{{ $item->name }}</td>
+                        <td>{{ $item->typeofpay }}</td>
+                        <td>{{ $item->student_typepay }}</td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
-    </div>
+    {{-- </div> --}}
 
 
     @php
@@ -107,7 +101,13 @@
     $years = json_encode($dataPointsYears, JSON_NUMERIC_CHECK);    
     @endphp
 
-    <script scr="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+   
+   
+   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+ 
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+    
    
     <script>
         
@@ -120,52 +120,9 @@
             $('#example').DataTable( {
                 "pagingType": "full_numbers"
             } );
-            $('body').on('click','#showData', function(e) {
-                $.ajax({
-                type:"POST",
-                url: "{{route('admin.student')}}",
-         
-                dataType: 'json',
-                success: function(response){
-                    var result = response.arrayStudentTypayCourseMajor
-                    console.log(result)
-                    $.each(result, function(key, value) {
-                        $('tbody#dataStudent').append('<tr>\
-                            <td>' +value.nameCouse + '</td>\
-                            <td>' +value.name + '</td>\
-                            <td>' +value.typeofpay + '</td>\
-                            <td>' +value.student_typepay + '</td>\
-                            </tr>'
-                        );
-                        
-                    });
 
-                    var divMajor = document.querySelector('.major')
-                    var divCourse = document.querySelector('.course')
-                    var selectMajor = divMajor.querySelector('select')
-                    var selectCourse = divCourse.querySelector('select')
-                    var arrayCourse = response.arrayCourse
-                    var arrayMajor = response.arrayMajor
-
-                    var arrayCourses = Array.from(new Set(arrayCourse.map(JSON.stringify))).map(JSON.parse)
-                    var arrayMajors = Array.from(new Set(arrayMajor.map(JSON.stringify))).map(JSON.parse)
-                    
-                    var htmls = arrayCourses.map(function(course){
-                        return `
-                                <option value="${course[0]}">${course[1]}</option>
-                                `
-                    }).join('')
-                    var html = arrayMajors.map(function(major){
-                        return `
-                                <option value="${major[0]}">${major[1]}</option>
-                                `
-                    }).join('')
-                    selectMajor.innerHTML = htmls
-                    selectCourse.innerHTML = html
-                }
-            });
-        });
-    });       
+           
+        });   
        
     window.onload = function() {
 
