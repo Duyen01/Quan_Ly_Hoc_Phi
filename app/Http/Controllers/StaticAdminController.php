@@ -12,14 +12,14 @@ use App\Models\Admin;
 use App\Models\Bill;
 use App\Models\Major;
 use Carbon\Carbon;//Thu vien thoi gian
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class StaticAdminController extends Controller
 {
     //
     public function dashboard(Request $request)
     {
-        //get year
+        //get year    
         $year = date('Y');
         if($request->year){
             $year = $request->year;
@@ -121,8 +121,57 @@ class StaticAdminController extends Controller
             $totalBill = $each->totalBill;
             array_push($totalBillOfYear,array($totalBill));
         }
-        // dd($totalUserRegistrations);
+        // dd($totalUserRegistrations);     
+        
 
-        return view('admin.dashboard', compact('year','dataPointsMonths','dataPointsYears','dataPointsSemeters', 'totalMoney', 'totalStudent', 'totalUserRegistrations', 'totalBill'));
+        return view('admin.dashboard', compact('year','dataPointsMonths',
+        'dataPointsYears','dataPointsSemeters', 'totalMoney', 'totalStudent', 
+        'totalUserRegistrations', 'totalBill'));
+    }
+
+    public function student(Request $request)
+    {
+        $arrayTyepPayCousesMajor = DB::select(DB::raw("
+        select DISTINCT(course.id) as idCourse, course.name as nameCourse, student.idTypePay, major.id as idMajor, major.name as nameMajor from grade 
+        join student on student.idGrade = grade.id 
+        join course on course.id = grade.idCourse 
+        join major on major.id = grade.idMajor
+        "));
+
+        $arrayStudentTypayCourseMajor = array();
+        $arrayCourse = array();
+        $arrayMajor = array();
+
+        foreach($arrayTyepPayCousesMajor as $each){
+        
+            // $request->course === null ? $each->idCourse : $request->course
+            $typePayAndCoursesMajor = DB::select(DB::raw("
+            select DISTINCT(student.idTypePay) AS TYPE_PAY, 
+            COUNT(DISTINCT(student.lastname)) as student_typepay,
+            list_tuition.nameCouse, student_major.name, typepay.typeofpay
+            from student 
+            right join list_tuition on student.idGrade = list_tuition.ID_GRADE
+            join student_major on student.idGrade = student_major.MA_LOP
+            join typepay on student.idTypePay = typepay.id
+            where student.idTypePay = '$each->idTypePay'
+            and list_tuition.id_course = '$each->idCourse'
+            and student_major.MA_NGANH = '$each->idMajor'
+            group by student.idTypePay, list_tuition.nameCouse, typepay.typeofpay, student_major.name
+            "));
+
+            // dd($typayAndCourses);
+            foreach($typePayAndCoursesMajor as $item){
+                array_push($arrayStudentTypayCourseMajor, $item);                
+            }
+            array_push($arrayCourse, array($each->idCourse, $each->nameCourse));
+            array_push($arrayMajor, array($each->idMajor, $each->nameMajor));
+        }
+
+        return response()->json([
+            "arrayCourse" => $arrayCourse,
+            "arrayMajor" => $arrayMajor,
+            "arrayStudentTypayCourseMajor" => $arrayStudentTypayCourseMajor
+        ]);
+
     }
 }

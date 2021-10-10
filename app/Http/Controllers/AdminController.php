@@ -12,6 +12,8 @@ use App\Models\Student;
 use App\Models\Admin;
 use App\Models\Bill;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\RateLimiter;
+
 class AdminController extends Controller
 {
     /**
@@ -20,11 +22,20 @@ class AdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     //Login
-    public function login(){
-        return view('admin.login');
+
+    public function login(Request $request){
+        $key = 'login'.$request->ip();
+        // $retries = RateLimiter::retriesLeft($key, 3);
+        // $seconds = RateLimiter::availableIn($key);
+        return view('admin.login', [
+            'key'=>$key,
+            'retries'=>RateLimiter::retriesLeft($key, 3),
+            'seconds'=>RateLimiter::availableIn($key),
+        ]);
     }
     //Process Login
     public function loginProcess(Request $request){
+        
         $email = $request->get('email');
         $password = $request->get('password');
         

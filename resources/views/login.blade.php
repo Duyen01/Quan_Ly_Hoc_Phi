@@ -35,8 +35,10 @@
        {{ Session::get('error')}}
       </div>
       @endif
+      
       <form action="{{route('login-process')}}" method="post">
         @csrf
+       
         <div class="input-group mb-3">
           <input name="email" type="email" class="form-control" placeholder="Email">
           <div class="input-group-append">

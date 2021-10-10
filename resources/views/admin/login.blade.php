@@ -34,7 +34,16 @@
        {{ Session::get('error')}}
       </div>
       @endif
-
+      @if ($errors->any() && retries > 0)
+        <div class="alert alert-warning" role="alert">
+          Remaining {{ $retries }} attempt.
+        </div>
+      @endif
+      @if ($retries <= 0)
+          <div id="secondsAttempt" class="alert alert-danger" role="alert">
+            Please try again after {{ $seconds }} seconds.
+          </div>
+      @endif
       <form action="{{route('admin.login-process')}}" method="post">
         @csrf
         <div class="input-group mb-3">
@@ -72,7 +81,13 @@
   <!-- /.card -->
 </div>
 <!-- /.login-box -->
-
+<script>
+  setInterval(function (){
+    // var seconds = document.querySelector('#secondsAttempt')
+    $('#secondsAttempt').load(document.URL +  ' #secondsAttempt');
+  }, 1000)
+  
+</script>
 <!-- jQuery -->
 <script src="{{asset('ad/plugins/jquery/jquery.min.js')}}"></script>
 <!-- Bootstrap 4 -->

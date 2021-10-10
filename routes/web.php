@@ -55,11 +55,12 @@ Route::prefix('admin')->group(function(){
     Route::post('/reset-new-pass',[ResetPasswordController::class, 'reset_new_pass'])->name('reset_new_pass');
 
     Route::get('/login', [AdminController::class, 'login'])->name("admin.login");
-    Route::post('/login-process', [AdminController::class, 'loginProcess'])->name("admin.login-process");
+    Route::post('/login-process', [AdminController::class, 'loginProcess'])->name("admin.login-process")->middleware('throttle:login');
     //Middleware
     Route::middleware([CheckLogin::class])->group(function(){
         //Admin dashboard
         Route::get('/', [StaticAdminController::class, 'dashboard'])->name('admin.dashboard');
+        Route::post('/', [StaticAdminController::class, 'student'])->name('admin.student');
         Route::get('/edit', [AdminController::class, 'edit'])->name('admin.edit'); 
         Route::post('/update', [AdminController::class ,'update'])->name('admin.update');
         Route::get('/logout', [AdminController::class, 'logout'])->name('admin.logout');
